@@ -1,7 +1,15 @@
 import ast
 
+def extract_doc_string(node_body) -> str:
+    """
+    Extracts docstrings from the provided Python node.
 
-def extract_doc_string(node_body, ) -> str:
+    Args:
+        node_body (list): Node of ast tree
+
+    Returns:
+        str: docstring of the provided Python node
+    """
     if node_body and isinstance(node_body[0], ast.Expr) and isinstance(node_body[0].value, ast.Str):
         method_docstring = node_body[0].value.s
         return f'    """{method_docstring}"""'
