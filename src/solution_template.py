@@ -13,9 +13,7 @@ def change_and_save_df(dataframe_name: str, save_df_path: str):
 
     new_df = df_transformer.get_result()
 
-    with open(save_df_path, 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerows(new_df)
+    new_df.to_csv(f'{save_df_path}', index=False)
 
 
 def main():
@@ -25,7 +23,7 @@ def main():
 
     if len(argv) == 2:
         dataframe_name = argv[1]
-    elif len(argv):
+    elif len(argv) == 3:
         dataframe_name = argv[1]
         save_df_path = argv[2]
     elif len(argv) > 3:
