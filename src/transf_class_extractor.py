@@ -15,16 +15,19 @@ def extract_doc_string(node_body) -> str:
         return f'    """{method_docstring}"""'
     return ""
 
-def extract_class_core(code: str) -> str:
+def extract_class_core(file: str) -> str:
     """
     Extracts class and method definitions along with their docstrings from the provided Python code.
 
     Args:
-        code (str): Python code as a string.
+        code (str): Path to the Python code file.
 
     Returns:
         str: Extracted class and method signatures along with docstrings.
     """
+    f = open(file, "r")
+    code = f.read()
+
     # Parse the code into an Abstract Syntax Tree (AST)
     tree = ast.parse(code)
     extracted_definitions = []
