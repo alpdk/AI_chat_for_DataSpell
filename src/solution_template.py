@@ -29,7 +29,7 @@ def main():
         dataframe_name = argv[1]
         save_df_path = argv[2]
     elif len(argv) > 3:
-        print("Error: Incorrect number of arguments! It should be no more than 3 arguments!")
+        print("Error: Incorrect number of arguments! There should be no more than 3 arguments!")
         return 1
 
     change_and_save_df(dataframe_name, save_df_path)
