@@ -44,6 +44,8 @@ def llm_request(task_description: str, model_id: str, origin_csv_file: str, fina
 
     print("HuggingFace pipeline generated.")
 
+    stop_sequence = "End of implementation"
+
     code_template = """
     Lower will be defined class for manipulation over dataframe object, template class for result format, and task. 
     You should use this defined class for solving task of manipulation over dataframe, you can use only methods of class for doing it.
@@ -79,20 +81,15 @@ def llm_request(task_description: str, model_id: str, origin_csv_file: str, fina
     f.close()
 
     print("Starting generate answer.")
-    generated_code = code_chain.run(class_code=class_code, code_template=code_template,
-                                    task_description=task_description)
+    generated_code = code_chain.run(class_code=class_code,
+                                    code_template=code_template,
+                                    task_description=task_description,
+                                    stop=[stop_sequence])
 
     print("Taking answer.")
     start_index = generated_code.find("Python Code:")
 
-    first_end_index = generated_code.find("End of implementation")
-
-    if first_end_index != -1:
-        end_index = generated_code.find("End of implementation", first_end_index + len("End of implementation"))
-    else:
-        end_index = -1
-
-    python_code = generated_code[start_index + len("Python Code:"):end_index].strip()
+    python_code = generated_code[start_index + len("Python Code:"):].strip()
 
     print(f"Saving result into file: solution.py")
     f = open("solution.py", "w")
@@ -110,27 +107,15 @@ def main():
     """
     argv = sys.argv
 
-    task_description = ""
-    model_id = "codellama/CodeLlama-7b-hf"
-    origin_csv_file = "../dataframes/Housing.csv"
-    final_csv_file = "../dataframes/Housing_Modified.csv"
+    if not (2 <= len(argv) <= 5):
+        print("Error: Incorrect number of arguments! There should be between 1 and 4 arguments.")
+        return None
 
-    if len(argv) == 2:
-        task_description = argv[1]
-    elif len(argv) == 3:
-        task_description = argv[1]
-        model_id = argv[2]
-    elif len(argv) == 4:
-        task_description = argv[1]
-        model_id = argv[2]
-        origin_csv_file = argv[3]
-    elif len(argv) == 5:
-        task_description = argv[1]
-        model_id = argv[2]
-        origin_csv_file = argv[3]
-        final_csv_file = argv[4]
-    else:
-        print("Error: Incorrect number of arguments! There should be at least 1 and no more than 2 arguments!")
+    # Assign values dynamically with default initialization
+    task_description = argv[1]
+    model_id = argv[2] if len(argv) > 2 else "codellama/CodeLlama-7b-hf"
+    origin_csv_file = argv[3] if len(argv) > 3 else "../dataframes/Housing.csv"
+    final_csv_file = argv[4] if len(argv) > 4 else "../dataframes/Housing_Modified.csv"
 
     llm_request(task_description, model_id, origin_csv_file, final_csv_file)
 
