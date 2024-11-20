@@ -59,6 +59,10 @@ This code require count of arguments between 1 and 4:
 As a result it will create file `solution.py`, that transform dataset and run it with defined path of 
 original and modified file. 
 
+For running this test with default files and model run script bellow:
+
+```python llm_request.py "Take columns with names: price, bedrooms, mainroad, and parking, and rows, where count of bedrooms are smaller or equal to 3."```
+
 ## What can be improved?
 
 This implementation has several limitations, and some aspect can be change for better work:
