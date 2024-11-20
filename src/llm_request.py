@@ -100,7 +100,7 @@ def llm_request(task_description: str, model_id: str, origin_csv_file: str, fina
     f.close()
 
     print(f"Execute generated file.")
-    os.system(f"solution.py {origin_csv_file} {final_csv_file}")
+    os.system(f"python solution.py {origin_csv_file} {final_csv_file}")
 
 def main():
     """
