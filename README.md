@@ -70,4 +70,4 @@ This implementation has several limitations, and some aspect can be change for b
 1. Implement full chat with LLM. Current solution implement 1-shot request, that can generate 
 result that do not satisfy request, or do not work at all.
 2. Experiment with more models. I tried several models, and decided that model `codellama/CodeLlama-7b-hf`
-generate best result among the others, but it is on objective estimation.
+generate best result among the others, but it is not objective estimation.
